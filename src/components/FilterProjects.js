@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { projectData } from '../data/datasource'
-import Project from './Projects.js'
+// import Project from './Projects.js'
 
 /*  Advice:
    (1) Create the component's JSX by using .map() on `projectData`
@@ -28,24 +28,52 @@ import Project from './Projects.js'
 class FilterProjects extends Component {
   constructor() {
     super();
-
     this.state = {
       list: 'all'
     }
   }
-  _changeList(val){
-    
+    _changeList(val){
+      this.setState({
+        list: val
+      })
+    }
 
-  }
+    _styleList(projectData){
+      let newAr = projectData.map(function(elem){
+        let boxStyle
+        let textStyle
+      if (elem.solo === true) {
+        textStyle = true
+        boxStyle = 'project project--solo'
+      }else {
+        textStyle = false
+        boxStyle = 'project project--team'
+      }
+      return (
+        <div className= {boxStyle}>
+          <span className="project__title">{elem.projectName}</span>
+        </div>
+      )
+      })
+
+      return newAr
+    }
+
+
   render() {
-    let newArray = projectData.map(function (elements) {
-      console.log(elements);
-      // console.log(elements);
-      // projectName
-      // role
-      // solo
-      return <Project li = {elements} />
-    })
+    // let newArray = projectData.map(function (elements) {
+    //   console.log(elements);
+    //   // console.log(elements);
+    //   // projectName
+    //   // role
+    //   // solo
+    //   return <Project li = {elements} />
+    // })
+    let filterProjects = projectData.filter(name => {
+      if (this.state.list === "all") return true;
+      if (name.solo === true && this.state.list === 'true') return true;
+      if (name.solo === false && this.state.list === 'false') return true;
+    });
 
 
     return (
@@ -53,21 +81,21 @@ class FilterProjects extends Component {
           <h4>Projects</h4>
 
           <div className="project-types-list">
-            <span data-ptype="all" className="project-type project-type--all project-type--selected" onClick={this._changeList}>
+            <span data-ptype="all" className="project-type project-type--all project-type--selected" onClick={() => {this._changeList('all')}}>
               All
             </span>
 
-            <span data-ptype="solo" className="project-type project-type--solo " >
+            <span data-ptype="solo" className="project-type project-type--solo "  onClick={() => {this._changeList('true')}}>
               <i className="ion-person"></i>Solo
             </span>
 
-            <span data-ptype="team" className="project-type project-type--team" >
+            <span data-ptype="team" className="project-type project-type--team" onClick={() => {this._changeList('false')}} >
               <i className="ion-person-stalker"></i>Team
             </span>
           </div>
 
           <div className='projects-list'>
-            {newArray}
+            {this._styleList(filterProjects)}
 
           </div>
         </section>
