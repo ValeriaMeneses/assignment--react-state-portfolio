@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-
-
 /*  Note:
    if you find a add/remove 'techlist--hidden' from the div element's class,
    the techlist box will appear/disappear

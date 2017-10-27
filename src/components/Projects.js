@@ -10,7 +10,6 @@ class Project extends Component {
        <span className="project__title">{object.projectName}</span>
       </div>
   )
-
   }
 }
 
